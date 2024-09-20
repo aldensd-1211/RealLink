@@ -6,11 +6,16 @@ import {
   MdOutlineGarage,
 } from "react-icons/md";
 import { CgRuler } from "react-icons/cg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Item = ({ property }) => {
+  const navigate = useNavigate();
+
   return (
-    <div className="rounded-2xl p-5 bg-white">
+    <div
+      onClick={() => navigate(`../listing/${property.id}`)}
+      className="rounded-2xl p-5 bg-white"
+    >
       <div className="pb-2 relative">
         <img src={property.image} alt={property.title} className="rounded-xl" />
         <div className="absolute top-4 right-6">

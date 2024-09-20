@@ -1,8 +1,7 @@
 import React from "react";
 import Searchbar from "../components/Searchbar";
-import { PROPERTIES } from "../constant/data";
 import Item from "../components/Item";
-import useProperties from "../hooks/useProperties";
+import useProperties from "../hooks/useProperties.jsx";
 import { PuffLoader } from "react-spinners";
 
 const Listing = () => {
