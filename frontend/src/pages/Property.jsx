@@ -1,7 +1,7 @@
-import React from "react";
-import { useQuery } from "react-query";
+import React, { useContext, useState } from "react";
+import { useMutation, useQuery } from "react-query";
 import { useLocation } from "react-router-dom";
-import { getProperty } from "../utils/api";
+import { getProperty, removeBooking } from "../utils/api";
 import { PuffLoader } from "react-spinners";
 import {
   MdOutlineBathtub,
@@ -12,6 +12,12 @@ import HeartBtn from "../components/HeartBtn";
 import { CgRuler } from "react-icons/cg";
 import { FaLocationDot } from "react-icons/fa6";
 import Map from "../components/Map";
+import useAuthCheck from "../hooks/useAuthCheck";
+import { useAuth0 } from "@auth0/auth0-react";
+import BookingModal from "../components/BookingModal";
+import UserDetailContext from "../context/userDetailContext";
+import { Button } from "@mantine/core";
+import { toast } from "react-toastify";
 
 const Property = () => {
   const { pathname } = useLocation();
@@ -21,6 +27,26 @@ const Property = () => {
     getProperty(id)
   );
   // console.log(data);
+  const [modalOpened, setModalOpened] = useState(false);
+  const { validateLogin } = useAuthCheck();
+  const { user } = useAuth0();
+
+  const {
+    userDetails: { token, bookings },
+    setUserDetails,
+  } = useContext(UserDetailContext);
+
+  const { mutate: cancelBooking, isLoading: cancelling } = useMutation({
+    mutationFn: () => removeBooking(id, user?.email, token),
+    onSuccess: () => {
+      setUserDetails((prev) => ({
+        ...prev,
+        bookings: prev.bookings.filter((booking) => booking.id !== id),
+      }));
+      toast.success("Booking cancelled", { position: "bottom-right" });
+    },
+  });
+
   if (isLoading) {
     return (
       <div className="h-64 flexCenter">
@@ -86,9 +112,41 @@ const Property = () => {
             </div>
           </div>
           <div className="flexBetween">
-            <button className="btn-secondary rounded-xl !py-[7px] !px-5 shadow-sm">
-              Book the visit
-            </button>
+            {bookings?.map((booking) => booking.id).includes(id) ? (
+              <>
+                <div className="flex flex-col items-center w-3/5">
+                  <Button
+                    onClick={() => cancelBooking()}
+                    variant="outline"
+                    w={"100%"}
+                    color="red"
+                    disabled={cancelling}
+                  >
+                    Cancel booking
+                  </Button>
+                  <p className="text-red-500 medium-15 mt-2">
+                    You've already booked visit for{" "}
+                    {bookings?.filter((booking) => booking?.id === id)[0].date}
+                  </p>
+                </div>
+              </>
+            ) : (
+              <button
+                onClick={() => {
+                  validateLogin && setModalOpened(true);
+                }}
+                className="btn-secondary rounded-xl !py-[7px] !px-5 shadow-sm w-full"
+              >
+                Book the visit
+              </button>
+            )}
+
+            <BookingModal
+              opened={modalOpened}
+              setOpened={setModalOpened}
+              propertyId={id}
+              email={user?.email}
+            />
           </div>
         </div>
         <div className="flex-1">
