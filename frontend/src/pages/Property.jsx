@@ -74,7 +74,7 @@ const Property = () => {
           className="rounded-xl max-h-[27rem] self-center w-full object-cover"
         />
         <div className="absolute top-4 right-6">
-          <HeartBtn />
+          <HeartBtn id={id} />
         </div>
       </div>
 

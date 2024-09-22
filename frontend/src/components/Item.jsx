@@ -19,7 +19,7 @@ const Item = ({ property }) => {
       <div className="pb-2 relative">
         <img src={property.image} alt={property.title} className="rounded-xl" />
         <div className="absolute top-4 right-6">
-          <HeartBtn />
+          <HeartBtn id={property?.id} />
         </div>
       </div>
       <h5 className="bold-16 my-1 text-secondary">{property.city}</h5>

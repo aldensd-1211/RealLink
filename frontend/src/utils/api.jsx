@@ -89,5 +89,68 @@ export const removeBooking = async (id, email, token) => {
     );
   } catch (error) {
     toast.error("Something went wrong, please try again");
+    throw error;
+  }
+};
+
+export const toFav = async (id, email, token) => {
+  try {
+    await api.post(
+      `/user/toFav/${id}`,
+      {
+        email,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getAllFav = async (email, token) => {
+  if (!token) return;
+  try {
+    const res = await api.post(
+      `/user/allFav`,
+      {
+        email,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    // console.log(res);
+    return res.data["favResidenciesID"];
+  } catch (error) {
+    toast.error("Something went wrong while fetching favs");
+    throw e;
+  }
+};
+
+export const getAllBookings = async (email, token) => {
+  if (!token) return;
+  try {
+    const res = await api.post(
+      `/user/allBookings`,
+      {
+        email,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    // console.log("res", res);
+    return res.data["bookedVisits"];
+  } catch (error) {
+    toast.error("Something went wrong while fetching bookings");
+    throw error;
   }
 };
