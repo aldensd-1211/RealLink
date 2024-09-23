@@ -13,7 +13,7 @@ createRoot(document.getElementById("root")).render(
       domain="dev-hswfioqdfn43xhfj.us.auth0.com"
       clientId="pRTttb8wCq3TgOIaI5AigKcEKfFJuYzp"
       authorizationParams={{
-        redirect_uri: "http://localhost:5173",
+        redirect_uri: "https://reallink.vercel.app",
       }}
       audience="http://localhost:8000"
       scope="openid profile email"
