@@ -1,6 +1,5 @@
 import React, { Suspense, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import AddProperty from "./pages/AddProperty";
 import Home from "./pages/Home";
 import Listing from "./pages/Listing";
 import Bookings from "./pages/Bookings";
@@ -32,7 +31,6 @@ const App = () => {
                   <Route index element={<Listing />} />
                   <Route path=":propertyId" element={<Property />} />
                 </Route>
-                <Route path="/addproperty" element={<AddProperty />}></Route>
                 <Route path="/bookings" element={<Bookings />}></Route>
                 <Route path="/favourites" element={<Favourites />}></Route>
               </Route>
