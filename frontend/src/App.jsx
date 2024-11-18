@@ -11,6 +11,7 @@ import { ReactQueryDevtools } from "react-query/devtools";
 import "react-toastify/dist/ReactToastify.css";
 import Property from "./pages/Property";
 import UserDetailContext from "./context/userDetailContext";
+import Chat from "./components/Chat";
 
 const App = () => {
   const queryClient = new QueryClient();
@@ -31,6 +32,7 @@ const App = () => {
                   <Route index element={<Listing />} />
                   <Route path=":propertyId" element={<Property />} />
                 </Route>
+                {/* <Route path="/chat" element={<Chat />}></Route> */}
                 <Route path="/bookings" element={<Bookings />}></Route>
                 <Route path="/favourites" element={<Favourites />}></Route>
               </Route>
